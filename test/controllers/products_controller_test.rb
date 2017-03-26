@@ -14,6 +14,9 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get products_url
     assert_response :success
+    assert_select '#main .list_description', 3
+    assert_select '#main .list_line_odd', minimum: 1
+    assert_select '#main .list_line_even', minimum: 1
   end
 
   test "should get new" do

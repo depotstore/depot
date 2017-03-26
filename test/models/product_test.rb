@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures :products
-  def new_product(image_url)
+  def new_product(image_url = 'zzz.jpg')
     Product.new(title: 'My Book Title',
                 description: 'yyy',
                 price: 1,
@@ -58,6 +58,21 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal [I18n.translate('errors.messages.taken')],
                   product.errors[:title]
     #'has already been taken'
+  end
+
+  test 'title is at least ten characters' do
+    ok = ['0123456789', 'abcdefghij', 'testing title']
+    bad = %w{012345678 abcdefgh testing}
+    product = new_product
+    ok.each do |title|
+      product.title = title
+      assert product.valid?, "#{title} shouldn't be invalid"
+    end
+
+    bad.each do |title|
+       product.title = title
+       assert product.invalid?, "#{title} shouldn't be valid"
+    end
   end
 
 
