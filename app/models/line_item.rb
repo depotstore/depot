@@ -11,7 +11,7 @@ class LineItem < ApplicationRecord
         line_item.quantity -= 1
         line_item.save
     end
-    line_item.destroy if line_item.quantity <= 0
+    line_item.destroy if line_item.quantity == 0
     line_item
   end
 end
