@@ -29,13 +29,26 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_caching = true
+  config.action_mailer.perform_deliveries = true
+  #Sending emails
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = {host: '46.188.127.158:80'}
+  config.action_mailer.smtp_settings = {
+    address:        "smtp.gmail.com",
+    port:           587,
+    domain:         "46.188.127.158:80", #"domain.of.sender.net" gmail.com
+    authentication: :plain,
+    user_name:      'depotstoreinfo@gmail.com',
+    password:       'Store123',
+    enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
   # Raise an error on page load if there are pending migrations.
-  config.active_record.migration_error = :page_load
+    config.active_record.migration_error = :page_load
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
