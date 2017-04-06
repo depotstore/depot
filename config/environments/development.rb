@@ -32,7 +32,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = true
   config.action_mailer.perform_deliveries = true
   #Sending emails
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method =   :smtp #:test
   config.action_mailer.default_url_options = {host: '46.188.127.158:80'}
   config.action_mailer.smtp_settings = {
     address:        "smtp.gmail.com",

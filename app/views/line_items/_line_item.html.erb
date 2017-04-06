@@ -3,9 +3,12 @@
 <% else %>
 <tr>
 <% end %>
-  <td><%= line_item.quantity %> &times;</td>
+  <td><%= line_item.quantity %>&times;</td>
   <td><%= line_item.product.title %></td>
   <td class="item_price"><%= number_to_currency(line_item.total_price) %></td>
-  <td><%= button_to 'Decrement', decrement_line_item_path(line_item),
-          remote: true, method: :post  %></td>
+  
+  <% unless controller.controller_path == 'order_mailer' %>
+    <td><%= button_to 'Decrement', decrement_line_item_path(line_item),
+        remote: true, method: :post  %></td>
+  <% end %>
 </tr>

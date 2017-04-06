@@ -3,7 +3,9 @@
 one:
   product: two
   cart: one
+  order: one #for order_mailer_test
 
 two:
   product: ruby
   cart: two
+  order: one #for order_mailer_test

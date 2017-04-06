@@ -1,4 +1,5 @@
 Dear <%= @order.name %>.
+line_items= <%= @order.line_items.count %>
 Thank you for your recent order from The Pragmatic Store.
 You ordered the following items:
 <%= render @order.line_items -%>
