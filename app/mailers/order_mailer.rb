@@ -7,7 +7,7 @@ class OrderMailer < ApplicationMailer
   #
   def received(order)
     @order = order
-    attachments['7apps.jpg'] = File.read('app/assets/images/7apps.jpg')
+    # attachments['7apps.jpg'] = File.read('app/assets/images/7apps.jpg')
     mail to: order.email, subject: 'Pragmatic Store Order Confirmation'
   end
 

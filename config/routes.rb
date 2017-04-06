@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :orders
+  resources :orders do
+    post 'ship', on: :member
+  end
   resources :line_items do
     post 'decrement', on: :member
   end

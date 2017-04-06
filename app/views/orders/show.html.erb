@@ -20,5 +20,14 @@
   <%= @order.pay_type %>
 </p>
 
+<p>
+  <strong>Ship date:</strong>
+  <% if @order.ship_date %>
+    <%= @order.ship_date.strftime("%Y %m %d at: %l %M %P") %>
+  <% else %>
+    Not Shipped
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_order_path(@order) %> |
 <%= link_to 'Back', orders_path %>

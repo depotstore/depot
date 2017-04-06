@@ -69,6 +69,24 @@ class OrdersController < ApplicationController
     end
   end
 
+  def ship
+    @orders = Order.all
+    @order = Order.find(params[:id])
+    respond_to do |format|
+      if @order.ship_date
+        @notice = 'Order is already shipped'
+        format.js
+      else
+        @order.ship_date = DateTime.now
+        if @order.save
+          OrderMailer.shipped(@order).deliver_now
+          @notice = 'Order is shipped'
+          format.js
+        end
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
@@ -77,7 +95,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type)
+      params.require(:order).permit(:name, :address, :email, :pay_type, :ship_date)
     end
 
     def ensure_cart_isnt_empty
