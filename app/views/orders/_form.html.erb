@@ -32,7 +32,23 @@
       Order.pay_types.keys, prompt: 'Select a payment method' %>
   </div>
 
+ <% unless controller.action_name == 'new' %>
+  <% if @order.ship_date %>
+  <div class="field">
+    <%= f.datetime_select :ship_date %>
+  </div>
+  <% else %>
+    <p>Order is not shipped yet, please push 'Ship' button below.</p>
+    <% end %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit 'Place Order' %>
   </div>
+<% end %>
+
+<% unless controller.action_name == 'new' %>
+  <% unless @order.ship_date %>
+    <%= button_to 'Ship', ship_order_path(order), remote: true %>
+  <% end %>
 <% end %>

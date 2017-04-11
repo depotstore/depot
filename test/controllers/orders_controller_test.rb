@@ -41,7 +41,12 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update order" do
-    patch order_url(@order), params: { order: { address: @order.address, email: @order.email, name: @order.name, pay_type: @order.pay_type } }
+    patch order_url(@order), params: { order: {
+      address: @order.address, email: @order.email,
+      name: @order.name, pay_type: @order.pay_type,
+      'ship_date(1i)' => '2017', 'ship_date(2i)' => '11',
+      'ship_date(3i)' => '10', 'ship_date(4i)' => '10',
+      'ship_date(5i)' => '10' } }
     assert_redirected_to order_url(@order)
   end
 

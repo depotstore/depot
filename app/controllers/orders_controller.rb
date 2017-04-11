@@ -48,9 +48,11 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
+    check_and_infrom(params[:order])
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+        format.html { redirect_to @order,
+          notice: "Order was successfully updated.#{flash[:date_changed]}" }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }
@@ -69,18 +71,41 @@ class OrdersController < ApplicationController
     end
   end
 
+  def check_and_infrom(order_data)
+    datetime_array = (1..5).map {|x| order_data["ship_date(#{x}i)"].to_i}
+    if datetime_array
+      new_date = DateTime.new(*datetime_array)
+      if @order.ship_date == new_date
+        flash.now[:date_changed] = ' Shipping date is not changed.'
+      end
+      unless @order.ship_date
+        @order.ship_date = new_date
+        OrderMailer.shipped(@order).deliver_now
+        flash.now[:date_changed] = ' Order is shipped.'
+      end
+      unless new_date == @order.ship_date
+        puts "new date: #{new_date}"
+        puts "order's ship date: #{@order.ship_date}"
+        @order.ship_date = new_date
+        OrderMailer.date_changed(@order).deliver_now
+        flash[:date_changed] = ' Shipping date is changed.'
+      end
+    end
+  end
+
   def ship
     @orders = Order.all
     @order = Order.find(params[:id])
+
     respond_to do |format|
       if @order.ship_date
-        @notice = 'Order is already shipped'
+        flash.now[:notice] = 'Order is already shipped.'
         format.js
       else
-        @order.ship_date = DateTime.now
+        @order.ship_date = DateTime.now.change({sec: 0})
         if @order.save
           OrderMailer.shipped(@order).deliver_now
-          @notice = 'Order is shipped'
+          flash.now[:notice] = 'Order is just shipped.'
           format.js
         end
       end
