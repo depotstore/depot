@@ -84,8 +84,6 @@ class OrdersController < ApplicationController
         flash.now[:date_changed] = ' Order is shipped.'
       end
       unless new_date == @order.ship_date
-        puts "new date: #{new_date}"
-        puts "order's ship date: #{@order.ship_date}"
         @order.ship_date = new_date
         OrderMailer.date_changed(@order).deliver_now
         flash[:date_changed] = ' Shipping date is changed.'

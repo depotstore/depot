@@ -1,6 +1,6 @@
-var action = $("#action_name").html().trim();
+var action = $('#action_name').html().trim();
 if (action == 'index') {
-  $("#main").html("<%= j render(template: 'orders/index') %>");
+  $('#main').html("<%= j render(template: 'orders/index') %>");
 } else if (action == 'edit') {
-   $("#main").html("<%= j render(template: 'orders/edit') %>");
+   $('#main').html("<%= j render(template: 'orders/edit') %>");
 }
