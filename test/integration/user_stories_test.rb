@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserStoriesTest < ActionDispatch::IntegrationTest
-  fixtures :products
+  # fixtures :products
   include ActiveJob::TestHelper
 
   test "buying a product" do

@@ -1,0 +1,36 @@
+<h1>Editing User</h1>
+
+<div class="depot_form" id="confirm">
+  <fieldset>
+    <legend>Confirm password</legend>
+    <div class="field">
+      <%= form_tag  do %>
+        <div class="field">
+          <%= label_tag 'Confirm:'%>
+          <%= password_field_tag :confirm  %>
+        </div>
+        <div class="action">
+          <%= submit_tag 'Confrim'%>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+</div>
+
+<% if @user.authenticate(params[:confirm]) %>
+  <script>
+  window.onload = function () {
+    $("#confirm").hide();
+  };
+  </script>
+  <%= render 'form', user: @user %>
+<% elsif params[:confirm] %>
+  <script>
+  $(window).on('load', function () {
+    $("#main").prepend("<div id='notice'> Password is not correct. Try again.</div>")
+  });
+  </script>
+<% end %>
+
+<%= link_to 'Show', @user %> |
+<%= link_to 'Back', users_path %>

@@ -13,7 +13,6 @@ class NotificationFlowTest < ActionDispatch::IntegrationTest
     post "/orders/#{order.id}/ship", xhr: true
     order = Order.last
     assert_equal DateTime.now.utc.change({sec: 0}).to_s, order.ship_date.to_s
-
     #Notification is sent.
     mail = ActionMailer::Base.deliveries.last
     assert_equal ['foravitosells@gmail.com'], mail.to

@@ -15,19 +15,37 @@
     </div>
     <div id="columns">
       <div id="side">
-        <p id="action_name" style="color: white;">
+        <div style="color: white;">
+          <%= controller.controller_name %>
+          <%= controller.action_name %>
+            :user_id <%= session[:user_id] %>
+        </div>
+        <p id="action_name" style="visibility: hidden;">
           <%= controller.action_name %>
         </p>
-        <ul>
-          <li><a href="http://www...">Home</a></li>
-          <li><a href="http://www.../faq">Questions</a></li>
-          <li><a href="http://www.../news">News</a></li>
-          <li><a href="http://www.../contact">Contact</a></li>
-        </ul>
         <% if @cart %>
           <%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
             <%= render @cart %>
           <% end %>
+        <% end %>
+
+        <ul>
+          <li><%= link_to 'Home', store_index_url %></li>
+          <li><a href="http://www.../faq">Questions</a></li>
+          <li><a href="http://www.../news">News</a></li>
+          <li><a href="http://www.../contact">Contact</a></li>
+        </ul>
+
+        <% if session[:user_id] %>
+          <ul>
+            <li><%= link_to 'Orders', orders_path %></li>
+            <li><%= link_to 'Products', products_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
+          </ul>
+          <%= button_to 'Log out', logout_path, method: :delete %>
+        <% end %>
+        <% unless session[:user_id] %>
+        <p><%= button_to 'Log in', login_path, method: :get %></p>
         <% end %>
       </div>
       <div id="main">

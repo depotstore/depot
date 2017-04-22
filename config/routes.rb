@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  get 'admin' => 'admin#index'
+
+  controller :sessions do
+    get 'login' => :new
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
+
+  resources :users do
+    post 'edit', on: :member
+  end
   resources :orders do
     post 'ship', on: :member
   end

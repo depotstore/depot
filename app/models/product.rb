@@ -11,7 +11,7 @@ class Product < ApplicationRecord
     message: 'must be a URL for GIF, JPG or PNG image'
   }
   validates :title, length: {minimum: 10}
-  validates :price, numericality: {less_than: 1000, message: 'Price too high' }
+  validates :price, numericality: {less_than: 1000, message: 'is too high' }
 
   private
   #ensure there are no line items referencing this product
