@@ -1,9 +1,5 @@
 <p id="notice"><%= notice %></p>
-<h1>Pragmatic Catalog</h1>
-
-<% if @count && @count > 5 %>
-  <h3>Page is loaded <%= pluralize(@count, 'time') %></h3>
-<% end %>
+<h1><%= t('.title_html')%></h1>
 
 <% cache @products do %>
   <% @products.each do |product| %>
@@ -13,16 +9,22 @@
           method: :post do %>
         <%= image_tag(product.image_url) %>
       <% end %>
+      <h3><%= product.locale.upcase %></h3>
       <h3 id="title"><%= product.title %></h3>
       <%= sanitize(product.description) %>
       <div class="price_line">
-        <span class="price"><%= number_to_currency(product.price) %></span>
-        <%= button_to 'Add to Cart', line_items_path(product_id: product),
+        <span class="price">
+          <%= number_to_currency(locale_currency(product.price)) %>
+        </span>
+        <%= button_to t('.add_html'),
+            line_items_path(product_id: product, locale: I18n.locale),
             remote: true %>
       </div>
+
     </div>
     <% end %>
   <% end %>
 <% end %>
 <p>session id: <%= session.id %></p>
 <p>user_id: <%= session[:user_id]%></p>
+<p>locale: <%= params[:locale]%></p>

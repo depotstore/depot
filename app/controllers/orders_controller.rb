@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   include CurrentCart
-  skip_before_action :authorize, only: [:create, :ship]
+  skip_before_action :authorize, only: [:new, :create, :ship]
   before_action :closing, only: :ship
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
@@ -20,10 +20,12 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @visibility = 'hidden'
   end
 
   # GET /orders/1/edit
   def edit
+    @visibility = @order.pay_type == ('Credit card') ? 'visible' : 'hidden'
   end
 
   # POST /orders
@@ -31,14 +33,13 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_itmes_from_cart(@cart)
-
     respond_to do |format|
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         OrderMailer.received(@order).deliver_now #deliver_later
         format.html { redirect_to store_index_url,
-          notice: 'Thank you for your order.' }
+          notice: I18n.t('.thanks') }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -75,7 +76,7 @@ class OrdersController < ApplicationController
 
   def check_and_infrom(order_data)
     datetime_array = (1..5).map {|x| order_data["ship_date(#{x}i)"].to_i}
-    if datetime_array
+    if datetime_array && datetime_array.first(3).all? { |e| e > 0 }
       new_date = DateTime.new(*datetime_array)
       if @order.ship_date == new_date
         flash.now[:date_changed] = ' Shipping date is not changed.'
@@ -118,7 +119,8 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type, :ship_date)
+      params.require(:order)
+      .permit(:name, :address, :email, :pay_type, :ship_date, :cc_number)
     end
 
     def ensure_cart_isnt_empty

@@ -6,6 +6,7 @@ ruby:
               delivered fast, you should add Ruby to your toolbox.​
   price: 50.0
   image_url: ruby.png​
+  locale: en
 
 one:
   title: Testing item one
@@ -14,6 +15,7 @@ one:
               delivered fast, you should add Ruby to your toolbox.​
   price: 9.99
   image_url: xxx.png​
+  locale: en
 
 two:
   title: Testing item two
@@ -22,3 +24,4 @@ two:
               delivered fast, you should add Ruby to your toolbox.​
   price: 19.99
   image_url: yyy.png
+  locale: en

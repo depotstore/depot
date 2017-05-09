@@ -65,9 +65,15 @@ class AccessTest < ActionDispatch::IntegrationTest
       assert_redirected_to controller: 'sessions', action: 'new'
 
       get "#{url}/new"
-      assert_response :redirect
-      assert_redirected_to login_url
-      assert_redirected_to controller: 'sessions', action: 'new'
+
+      if url == orders_url
+        assert_response :redirect
+        assert_redirected_to store_index_url
+      else
+        assert_response :redirect
+        assert_redirected_to login_url
+        assert_redirected_to controller: 'sessions', action: 'new'
+      end
     end
 
   end

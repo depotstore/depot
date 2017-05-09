@@ -5,7 +5,8 @@ class ProductTest < ActiveSupport::TestCase
     Product.new(title: 'My Book Title',
                 description: 'yyy',
                 price: 1,
-                image_url: image_url)
+                image_url: image_url,
+                locale: :en)
   end
 
   test 'product attrinbutes must not be empty' do
@@ -20,7 +21,8 @@ class ProductTest < ActiveSupport::TestCase
   test 'product price must be positive' do
     product = Product.new(title: 'My Book Title',
                           description: 'yyy',
-                          image_url: 'zzz.jpg')
+                          image_url: 'zzz.jpg',
+                          locale: :en)
     product.price = -1
     assert product.invalid?
     assert_equal ['must be greater than or equal to 0.01'], product.errors[:price]

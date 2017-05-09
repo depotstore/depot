@@ -51,13 +51,16 @@ class FirstAccessTest < ActionDispatch::IntegrationTest
 
       get "#{url}/new"
 
-      unless url == users_url
+      if url == users_url
+        assert_response :success
+        assert_generates "#{url}/new", controller: 'users', action: 'new'
+      elsif url == orders_url
+        assert_response :redirect
+        assert_redirected_to store_index_url
+      else
         assert_response :redirect
         assert_redirected_to new_user_url
         assert_redirected_to /users\/new/
-      else
-        assert_response :success
-        assert_generates "#{url}/new", controller: 'users', action: 'new'
       end
     end
 
