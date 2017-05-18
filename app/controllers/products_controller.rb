@@ -9,6 +9,10 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render json: @product.as_json }
+    # end
   end
 
   # GET /products/new

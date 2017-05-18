@@ -70,6 +70,15 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: exception.message
   end
 
+  def pdf
+    # send_file('app/assets/images/7apps.jpg', disposition: :inline)
+    file_path = File.join(Rails.root, 'app', 'assets', 'images', '7apps.jpg')
+    data = File.read(file_path)
+    send_data(data, type: 'image/jpg')
+    # filename: File.basename(file_path)
+    # type: ​​"image/png"​
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

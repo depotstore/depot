@@ -2,10 +2,6 @@
 $(document).ready(function(){
   $('#order_pay_type').change(cc_selected);
 });
-// $(function () {
-//     $('#order_pay_type').change(cc_selected);
-//   }
-// );
 function cc_selected() {
   var x = $("#pay_type option:selected ").html();
   if (x == 'Credit card' || x == 'Credit card ES') {
@@ -54,22 +50,21 @@ function cc_selected() {
           [t('.po'), 'Purchase order']
         ],
         selected: f.object.pay_type),
-        prompt: t('.pay_prompt_html'), onchange: "cc_selected();" %>
+        prompt: t('.pay_prompt_html') %>
   </div>
 
   <div class="field" id="cc_number" style="visibility:<%=@visibility%>">
     <%= f.label :cc_number, 'Credit card number' %>
     <%= f.text_field :cc_number, size: 40 %>
   </div>
-  <%= @visibility %>
 
- <% if controller.action_name != 'new' && controller.action_name != 'create' %>
+ <% if controller.action_name == 'edit' %>
   <% if @order.ship_date %>
-  <div class="field">
+  <div class="field" >
     <%= f.datetime_select :ship_date %>
   </div>
   <% else %>
-    <p>Order is not shipped yet, please push 'Ship' button below.</p>
+    <div>Order is not shipped yet, please push 'Ship' button below.</div><br>
     <% end %>
   <% end %>
 
@@ -78,7 +73,7 @@ function cc_selected() {
   </div>
 <% end %>
 
-<% if controller.action_name != 'new' && controller.action_name != 'create' %>
+<% if controller.action_name == 'edit' %>
   <% unless @order.ship_date %>
       <%= button_to 'Ship', ship_order_path(order), remote: true %>
   <% end %>

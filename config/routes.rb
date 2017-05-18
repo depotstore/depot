@@ -10,10 +10,12 @@ Rails.application.routes.draw do
 
   resources :users do
     post 'edit', on: :member
+    post 'pdf', on: :collection
   end
 
   resources :products do
     get 'who_bought', on: :member
+    resources :reviews
   end
 
   scope '(:locale)' do
