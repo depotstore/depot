@@ -9,7 +9,7 @@
 
   <body class="<%= controller.controller_name %>">
     <div id="banner">
-     <%= form_tag store_index_path, class: 'locale' do %>
+     <%= form_tag request.original_url, class: 'locale', method: :get do %>
       <%= select_tag 'set_locale',
           options_for_select(LANGUAGES, I18n.locale.to_s),
           onchange: 'this.form.submit()' %>
@@ -56,6 +56,8 @@
       </div>
       <div id="main">
         <%= yield %>
+        <p>parametrs: <%= request.original_url %></p>
+
       </div>
     </div>
   </body>
