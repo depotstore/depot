@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
+  ActiveSupport::TestCase.test_order = :sorted
   def new_product(image_url = 'zzz.jpg')
     Product.new(title: 'My Book Title',
                 description: 'yyy',
